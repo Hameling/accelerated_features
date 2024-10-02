@@ -30,7 +30,8 @@ class LighterGlue(nn.Module):
         super().__init__()
         LightGlue.default_conf = self.default_conf_xfeat
         self.net = LightGlue(None)
-        self.dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        # self.dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.dev = torch.device('cuda' if torch.cuda.is_available() else 'mps')
 
         if os.path.exists(weights):
             state_dict = torch.load(weights, map_location=self.dev)

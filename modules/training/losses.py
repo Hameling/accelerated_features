@@ -211,7 +211,8 @@ def hard_triplet_loss(X,Y, margin = 0.5):
     dist_mat = torch.cdist(X, Y, p=2.0)
     dist_pos = torch.diag(dist_mat)
     dist_neg = dist_mat + 100.*torch.eye(*dist_mat.size(), dtype = dist_mat.dtype, 
-            device = dist_mat.get_device() if dist_mat.is_cuda else torch.device("cpu"))
+            # device = dist_mat.get_device() if dist_mat.is_cuda else torch.device("cpu"))
+            device = dist_mat.get_device() if dist_mat.is_cuda else torch.device("mps"))
 
     #filter repeated patches on negative distances to avoid weird stuff on gradients
     dist_neg = dist_neg + dist_neg.le(0.01).float()*100.

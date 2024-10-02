@@ -79,7 +79,8 @@ class Trainer():
                        training_res = (800, 608), device_num="0", dry_run = False,
                        save_ckpt_every = 500):
 
-        self.dev = torch.device ('cuda' if torch.cuda.is_available() else 'cpu')
+        # self.dev = torch.device ('cuda' if torch.cuda.is_available() else 'cpu')
+        device = dist_mat.get_device() if dist_mat.is_cuda else torch.device("mps"))
         self.net = XFeatModel().to(self.dev)
 
         #Setup optimizer 
