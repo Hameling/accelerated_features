@@ -35,7 +35,8 @@ class XFeat(nn.Module):
 			else:
 				self.net.load_state_dict(weights)
 
-		self.interpolator = InterpolateSparse2d('bicubic')
+		# self.interpolator = InterpolateSparse2d('bicubic')
+		self.interpolator = InterpolateSparse2d('bilinear')
 
 		#Try to import LightGlue from Kornia
 		self.kornia_available = False

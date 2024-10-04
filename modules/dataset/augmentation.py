@@ -284,14 +284,16 @@ class AugmentationPipe(nn.Module):
             #Correlated Gaussian Noise
             if np.random.uniform() > 0.5 and self.photometric:
                 noise = F.interpolate(torch.randn_like(output)*(10/255), (h//2, w//2))
-                noise = F.interpolate(noise, (h, w), mode = 'bicubic')
+                # noise = F.interpolate(noise, (h, w), mode = 'bicubic')
+                noise = F.interpolate(noise, (h, w), mode = 'bilinear')
                 output = torch.clip( output + noise, 0., 1.)
 
             #Random shadows
             if np.random.uniform() > 0.6 and self.photometric:
                 noise = torch.rand((b, 1, h//64, w//64), device = self.device) * 1.3
                 noise = torch.clip(noise, 0.25, 1.0)
-                noise = F.interpolate(noise, (h, w), mode = 'bicubic')
+                # noise = F.interpolate(noise, (h, w), mode = 'bicubic')
+                noise = F.interpolate(noise, (h, w), mode = 'bilinear')
                 noise = noise.expand(-1, 3, -1, -1)
                 output *= noise
                 output = torch.clip( output, 0., 1.)
